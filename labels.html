@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guida alle etichette — SPID Registry Navigator</title>
+    <link rel="stylesheet" href="./assets/labels.css" />
+  </head>
+  <body>
+    <header class="labels-header">
+      <a href="./">← Torna al navigator</a>
+      <h1>Guida alle etichette</h1>
+    </header>
+    <main id="content" class="labels-content">
+      <p class="loading">Caricamento documentazione…</p>
+    </main>
+    <script type="module">
+      const content = document.getElementById('content');
+
+      async function load() {
+        try {
+          const res = await fetch('./docs/LABELS.md');
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const md = await res.text();
+          const { marked } = await import('https://cdn.jsdelivr.net/npm/marked@15.0.7/+esm');
+          content.innerHTML = marked.parse(md, { gfm: true });
+        } catch (err) {
+          content.innerHTML = `<p class="error">Impossibile caricare la guida: ${err.message}. Apri questa pagina tramite un server HTTP statico (cartella <code>dist/</code>).</p>`;
+        }
+      }
+
+      load();
+    </script>
+  </body>
+</html>
