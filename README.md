@@ -19,12 +19,10 @@ Documentazione etichette (badge) e filtri:
 
 ## Demo online (GitHub Pages)
 
-Sostituisci `OWNER` con l’organizzazione o l’utente GitHub del repository (es. `italia`).
-
 | Ambiente | URL | Aggiornamento |
 |----------|-----|----------------|
-| **Production** | https://OWNER.github.io/spid-registry-navigator/ | ogni push su `main` / `master` ([workflow](.github/workflows/deploy-pages.yml)) |
-| **Nightbuild** | https://OWNER.github.io/spid-registry-navigator/nightly/ | ogni **24 ore** (04:00 UTC) + manuale ([workflow](.github/workflows/deploy-nightly.yml)) |
+| **Production** | https://peppelinux.github.io/spid-registry-navigator/ | ogni push su `main` / `master` ([workflow](.github/workflows/deploy-pages.yml)) |
+| **Nightbuild** | https://peppelinux.github.io/spid-registry-navigator/nightly/ | ogni **24 ore** (04:00 UTC) + manuale ([workflow](.github/workflows/deploy-nightly.yml)) |
 
 - **Production** — cache e bundle come nel commit su `main` (`public/data/`).
 - **Nightbuild** — prima del deploy esegue `build:cache:refresh` e `build:cache:aggregators` sul registry live, poi pubblica in `/nightly/`.
