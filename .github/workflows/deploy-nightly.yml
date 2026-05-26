@@ -1,0 +1,54 @@
+# Nightbuild: aggiorna cache da registry, build e deploy su gh-pages/nightly/ (ogni 24h).
+name: Deploy nightbuild (GitHub Pages)
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gh-pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  nightly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Refresh metadata cache (XML flags)
+        run: npm run build:cache:refresh
+        env:
+          XML_FETCH_CONCURRENCY: '12'
+
+      - name: Refresh aggregator fields index
+        run: npm run build:cache:aggregators
+
+      - name: Build for GitHub Pages (nightbuild)
+        run: npm run build
+        env:
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/nightly/
+
+      - name: Deploy nightbuild to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          destination_dir: nightly
+          keep_files: true
+          commit_message: 'deploy(nightly): cache refresh ${{ github.run_id }}'

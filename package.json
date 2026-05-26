@@ -1,0 +1,26 @@
+{
+  "name": "spid-registry-navigator",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run sync-labels && vite",
+    "build": "npm run sync-labels && vite build && node scripts/verify-dist-html.mjs",
+    "preview": "vite preview",
+    "serve": "npm run build && sh ./serve-static.sh",
+    "serve:dist": "sh -c 'cd dist && exec python3 -m http.server \"${1:-8080}\"' --",
+    "sync-labels": "cp docs/LABELS.md public/docs/LABELS.md",
+    "build:cache": "node scripts/build-metadata-cache.mjs",
+    "build:cache:refresh": "node scripts/refresh-cache-from-xml.mjs",
+    "build:cache:aggregators": "node scripts/merge-aggregator-json-into-cache.mjs",
+    "test:e2e": "npm run build && playwright test",
+    "test:e2e:ci": "playwright test",
+    "test:e2e:ui": "npm run build && playwright test --ui"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@xmldom/xmldom": "^0.9.8",
+    "vite": "^6.3.5"
+  }
+}

@@ -1,0 +1,107 @@
+:root {
+  color-scheme: light dark;
+  --bg: #0f1419;
+  --text: #e7ecf3;
+  --muted: #9aa8bc;
+  --link: #6eb6ff;
+  --border: #2d3a4d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.labels-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: #1a2332;
+}
+
+.labels-header a {
+  color: var(--link);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.labels-header h1 {
+  margin: 0.5rem 0 0;
+  font-size: 1.4rem;
+}
+
+.labels-content {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.labels-content .loading,
+.labels-content .error {
+  color: var(--muted);
+}
+
+.labels-content h1,
+.labels-content h2,
+.labels-content h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.labels-content h1:first-child {
+  margin-top: 0;
+}
+
+.labels-content a {
+  color: var(--link);
+}
+
+.labels-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin: 1em 0;
+}
+
+.labels-content th,
+.labels-content td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.65rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.labels-content th {
+  background: #1a2332;
+}
+
+.labels-content code {
+  background: #1a2332;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  font-size: 0.88em;
+}
+
+.labels-content pre {
+  background: #1a2332;
+  border: 1px solid var(--border);
+  padding: 1rem;
+  overflow-x: auto;
+  border-radius: 8px;
+}
+
+.labels-content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+.labels-content ul {
+  padding-left: 1.25rem;
+}
