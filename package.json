@@ -14,6 +14,7 @@
     "build:cache": "node scripts/build-metadata-cache.mjs",
     "build:cache:refresh": "node scripts/refresh-cache-from-xml.mjs",
     "build:cache:aggregators": "node scripts/merge-aggregator-json-into-cache.mjs",
+    "build:cache:pipeline": "npm run build:cache:refresh && npm run build:cache:aggregators",
     "test:e2e": "npm run build && playwright test",
     "test:e2e:ci": "playwright test",
     "test:e2e:ui": "npm run build && playwright test --ui"

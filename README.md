@@ -25,7 +25,7 @@ Documentazione etichette (badge) e filtri:
 | **Nightbuild** | https://peppelinux.github.io/spid-saml2-federation-search-engine/nightly/ | ogni **24 ore** (04:00 UTC) + manuale ([workflow](.github/workflows/deploy-nightly.yml)) |
 
 - **Production** — cache e bundle come nel commit su `main` (`public/data/`).
-- **Nightbuild** — prima del deploy esegue `build:cache:refresh` e `build:cache:aggregators` sul registry live, poi pubblica in `/nightly/`.
+- **Nightbuild** — prima del deploy esegue `build:cache:pipeline` (refresh da registry + indice aggregatori locale), poi pubblica in `/nightly/`.
 
 ### Configurazione GitHub Pages (una tantum)
 
@@ -112,14 +112,15 @@ Apri l’URL indicato da Vite (es. `http://localhost:5173`).
 
 All’**primo avvio** (o se la cache locale è incompleta), l’app importa automaticamente `public/data/metadata-cache-default.json` in **IndexedDB** (~38.800 entity ID). I **filtri estensione** considerano solo il metadata XML in cache (risposte complete sul registro, non la sola pagina API né euristiche JSON).
 
-Rigenerare la cache autorevole: `npm run build:cache` (completo) o `npm run build:cache:refresh` (solo aggiornamento flag da XML). I download XML usano un pool parallelo di **12** richieste (`XML_FETCH_CONCURRENCY=12` per cambiare).
+Rigenerare la cache autorevole: `npm run build:cache` (completo), `npm run build:cache:refresh` (aggiornamento XML + snapshot JSON aggregati), oppure `npm run build:cache:pipeline` (refresh + indice aggregatori in sequenza). I download XML usano un pool parallelo di **12** richieste (`XML_FETCH_CONCURRENCY=12` per cambiare).
 
-La vista **Per aggregatore** richiede l’indice `aggregator-fields-default.json` (codice/nome aggregatore per ogni entity ID AG). Generarlo con:
+La vista **Per aggregatore** richiede l’indice `aggregator-fields-default.json` (codice/nome aggregatore per ogni entity ID AG). Per aggiornare cache e indice in un colpo solo:
 
 ```bash
-npm run build:cache:aggregators
+npm run build:cache:pipeline
 ```
 
+Oppure in due passi: prima `npm run build:cache:refresh`, poi `npm run build:cache:aggregators` (quest’ultimo non scarica dal registry: riusa i campi `registryJson` già presenti in `metadata-cache-default.json`).
 Senza questo file, in elenco compaiono solo gli aggregatori della pagina API corrente (~8), non tutti i soggetti aggregatori del registro.
 
 Per pubblicare una cache aggiornata nel repo: esporta dall’app → sostituisci `public/data/metadata-cache-default.json` → commit (vedi `public/data/README.md`).

@@ -3,6 +3,7 @@
  * (minori, firma, professionale, eIDAS) — fonte autorevole per i filtri.
  *
  * Uso: npm run build:cache:refresh
+ *        npm run build:cache:pipeline   (refresh + aggregatori)
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -182,6 +183,85 @@ async function fetchPageXml({ entityType, federationType, page, pageSize = 50 })
   };
 }
 
+async function fetchJsonPage({ entityType, federationType, page, pageSize = 50 }) {
+  const url = new URL(`${API_BASE}/entities`);
+  url.searchParams.set('entity_type', entityType);
+  url.searchParams.set('output', 'json');
+  url.searchParams.set('page', String(page));
+  url.searchParams.set('numMetadata', String(pageSize));
+  if (federationType) url.searchParams.set('federation_type', federationType);
+
+  const response = await fetch(url.toString(), {
+    headers: { Accept: 'application/json' },
+  });
+  if (response.status === 404) return { items: [] };
+  if (!response.ok) throw new Error(`JSON HTTP ${response.status} pagina ${page}`);
+  const body = await response.json();
+  const items = Array.isArray(body) ? body : body?.items ?? [];
+  return { items };
+}
+
+async function findLastJsonPage(params, pageSize = 50) {
+  const first = await fetchJsonPage({ ...params, page: 1, pageSize });
+  if (first.items.length === 0) return 1;
+  if (first.items.length < pageSize) return 1;
+
+  let lastFull = 1;
+  let probePage = 2;
+  while (true) {
+    const batch = await fetchJsonPage({ ...params, page: probePage, pageSize });
+    if (batch.items.length === 0) break;
+    if (batch.items.length < pageSize) return probePage;
+    lastFull = probePage;
+    probePage *= 2;
+    if (probePage > 50_000) throw new Error('Limite pagine superato');
+  }
+
+  let lo = lastFull + 1;
+  let hi = probePage - 1;
+  while (lo < hi) {
+    const mid = Math.floor((lo + hi + 1) / 2);
+    const batch = await fetchJsonPage({ ...params, page: mid, pageSize });
+    if (batch.items.length > 0) lo = mid;
+    else hi = mid - 1;
+  }
+  return lo;
+}
+
+async function refreshAggregatorJsonSnapshot(entries) {
+  console.log(`\n=== Aggregati (JSON snapshot) · ${FETCH_CONCURRENCY} workers ===`);
+  const params = { entityType: 'SP', federationType: 'AG' };
+  const lastPage = await findLastJsonPage(params);
+  console.log(`Pagine AG JSON: ${lastPage}`);
+
+  const pages = Array.from({ length: lastPage }, (_, i) => i + 1);
+  let done = 0;
+  let merged = 0;
+
+  await runPool(pages, FETCH_CONCURRENCY, async (page) => {
+    const batch = await fetchJsonPage({ ...params, page });
+    for (const item of batch.items) {
+      if (!item?.entity_id) continue;
+      const entry = entries[item.entity_id];
+      if (!entry || entry.entityType !== 'AG') continue;
+      entry.registryJson = {
+        ...(entry.registryJson || {}),
+        eidas_ready: item.eidas_ready ?? null,
+        organization_name: item.organization_name ?? null,
+        organization_display_name: item.organization_display_name ?? null,
+        code: item.code ?? null,
+        aggregator_code: item.aggregator_code ?? null,
+        aggregator_name: item.aggregator_name ?? null,
+      };
+      merged += 1;
+    }
+    done += 1;
+    if (done % 50 === 0 || done === lastPage) {
+      console.log(`  ${done}/${lastPage} pagine · snapshot AG JSON: ${merged}`);
+    }
+  });
+}
+
 function ingestXmlPage(entries, scope, xml) {
   const parsed = parseAllFromBundle(xml);
   let count = 0;
@@ -254,6 +334,7 @@ async function main() {
   for (const layer of LAYERS) {
     await scanLayer(layer, entries);
   }
+  await refreshAggregatorJsonSnapshot(entries);
 
   const idpIds = Object.values(entries)
     .filter((e) => e.entityType === 'IDP' && e.flags?.supportedAgeLimit)
