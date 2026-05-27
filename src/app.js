@@ -967,23 +967,32 @@ export async function mountApp(root, { cacheBootstrap } = {}) {
             </label>
           </section>
 
-          <section class="panel">
-            <h2>Ricerca ed export</h2>
+          <section class="panel panel--search">
+            <h2>Ricerca</h2>
             <div class="search-context" id="search-context">
-              <input
-                type="search"
-                id="search-input"
-                class="search-input"
-                placeholder="Entity ID, nome, codice…"
-              />
-              <p class="hint" id="export-results-hint">Esporta l’elenco completo (tutti i match, non solo la pagina corrente).</p>
-              <div class="export-actions">
-                <button type="button" class="btn btn-secondary btn--block" id="export-results-csv">
-                  Esporta CSV
-                </button>
-                <button type="button" class="btn btn-secondary btn--block" id="export-results-json">
-                  Esporta JSON
-                </button>
+              <label class="field field--search">
+                <span>Testo libero</span>
+                <input
+                  type="search"
+                  id="search-input"
+                  class="search-input"
+                  placeholder="Entity ID, nome, codice…"
+                  autocomplete="off"
+                />
+              </label>
+              <div class="search-context__export" aria-labelledby="search-export-heading">
+                <p class="search-context__export-heading" id="search-export-heading">Export elenco</p>
+                <p class="hint search-context__export-hint" id="export-results-hint">
+                  Esporta l’elenco completo (tutti i match, non solo la pagina corrente).
+                </p>
+                <div class="export-actions export-actions--paired">
+                  <button type="button" class="btn btn-secondary" id="export-results-csv">
+                    Esporta CSV
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="export-results-json">
+                    Esporta JSON
+                  </button>
+                </div>
               </div>
             </div>
           </section>
