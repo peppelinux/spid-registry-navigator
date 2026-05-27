@@ -23,6 +23,15 @@ Per rigenerare i flag XML sul bundle esistente (senza rifare tutto da zero):
 npm run build:cache:refresh
 ```
 
+Questo comando aggiorna anche lo snapshot JSON degli aggregati dentro `metadata-cache-default.json`
+(`registryJson` per le entry `AG`), così gli step successivi possono lavorare in locale senza altra rete.
+
+Per eseguire in sequenza refresh + indice aggregatori (stesso flusso della nightbuild CI):
+
+```bash
+npm run build:cache:pipeline
+```
+
 Per ricostruire cache + totali da zero:
 
 ```bash
@@ -31,7 +40,9 @@ npm run build:cache
 
 ### Indice aggregatori (vista «Per aggregatore»)
 
-`aggregator-fields-default.json` — mappa ogni entity ID aggregato → `aggregator_code` / `aggregator_name` (da JSON API). Senza questo file la vista mostra solo gli aggregatori della pagina API corrente (~8), non tutti i **soggetti aggregatori** del registro (~340+).
+`aggregator-fields-default.json` — mappa ogni entity ID aggregato → `aggregator_code` / `aggregator_name`.
+È generato localmente da `metadata-cache-default.json` (nessuna chiamata rete in questo step).
+Senza questo file la vista mostra solo gli aggregatori della pagina API corrente (~8), non tutti i **soggetti aggregatori** del registro (~340+).
 
 ```bash
 npm run build:cache:aggregators
