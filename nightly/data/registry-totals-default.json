@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "byQuery": {
+    "IDP|": {
+      "entityCount": 12,
+      "pages": 1,
+      "source": "build-script",
+      "updatedAt": "2026-05-26T14:21:53.078Z"
+    },
+    "SP|SP|": {
+      "entityCount": 5573,
+      "pages": 112,
+      "source": "build-script",
+      "updatedAt": "2026-05-26T14:22:48.181Z"
+    },
+    "SP|AG|": {
+      "entityCount": 33236,
+      "pages": 665,
+      "source": "build-script",
+      "updatedAt": "2026-05-26T14:35:22.522Z"
+    }
+  }
+}
