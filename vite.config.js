@@ -12,7 +12,7 @@ function noCacheHtmlPlugin() {
     transformIndexHtml(html) {
       const meta =
         '<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />';
-      const comment = `<!-- spid-registry-navigator build ${stamp} -->`;
+      const comment = `<!-- spid-saml2-federation-search-engine build ${stamp} -->`;
       return html.replace('<head>', `<head>\n    ${meta}\n    ${comment}`);
     },
   };

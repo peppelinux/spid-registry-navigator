@@ -1,6 +1,6 @@
-# Guida alle etichette (badge) — SPID Registry Navigator
+# Guida alle etichette (badge) — SPID SAML2 Federation Search Engine
 
-Questo documento descrive ogni **label** mostrata nell’interfaccia del navigator, come viene **rilevata** dal tool (campi API o metadata SAML) e i **riferimenti normativi/tecnici** che ne definiscono il significato.
+Questo documento descrive ogni **label** mostrata nell’interfaccia dell’applicazione, come viene **rilevata** dal tool (campi API o metadata SAML) e i **riferimenti normativi/tecnici** che ne definiscono il significato.
 
 Namespace SPID per le estensioni SAML: `https://spid.gov.it/saml-extensions` (prefisso `spid:`).
 
@@ -73,7 +73,7 @@ Namespace SPID per le estensioni SAML: `https://spid.gov.it/saml-extensions` (pr
 | | |
 |---|---|
 | **Significato** | Supporto a **identità digitale ad uso professionale** e/o **persona giuridica** (non solo cittadino-privato). |
-| **Rilevamento nel navigator** | **IdP:** `extensions.supported_purpose` contiene almeno uno tra `PG`, `PF`, `LP`, `PX`. **SP:** ACS con `ServiceName` «Pro» oppure attributi `companyName`, `companyFiscalNumber`, `ivaCode`, `registeredOffice`. |
+| **Rilevamento nell'applicazione** | **IdP:** `extensions.supported_purpose` contiene almeno uno tra `PG`, `PF`, `LP`, `PX`. **SP:** ACS con `ServiceName` «Pro» oppure attributi `companyName`, `companyFiscalNumber`, `ivaCode`, `registeredOffice`. |
 | **Codici purpose (IdP)** | Convenzione su metadata IdP (`spid:SupportedPurposes` / `spid:Purpose` in XML). Significato operativo allineato agli avvisi AgID: |
 | | • **P** — persona fisica (cittadino) |
 | | • **LP** — legale rappresentante / persona giuridica |
@@ -168,7 +168,7 @@ I checkbox applicano la stessa logica delle etichette, **solo sui risultati dell
 ## Limitazioni del rilevamento automatico
 
 1. **Paginazione** — I filtri estensione non scansionano l’intero registro (~5.500 SP, ~33.000 aggregati); usare anche i parametri API (`aggregator_code`, `code`, `eidas_ready`, …).
-2. **JSON vs XML** — Il registro in JSON non espone `spid:AgeLimit` / `SupportedAgeLimit`. Il navigator valida i metadata SAML in JS (pagina per pagina o intero dataset) e memorizza i risultati in cache locale per 24h.
+2. **JSON vs XML** — Il registro in JSON non espone `spid:AgeLimit` / `SupportedAgeLimit`. L'applicazione valida i metadata SAML in JS (pagina per pagina o intero dataset) e memorizza i risultati in cache locale per 24h.
 3. **Liste purpose vuote** — Molti IdP hanno `supported_purpose: []` nel JSON pur supportando profili standard; l’assenza della label `professionale` **non** prova che l’IdP non eroghi SPID base.
 4. **ACS #77 vs nome «Pro»** — Alcuni SP usano indice 77 con nome diverso dalla norma firma; altri hanno profilo «Pro» professionale senza firma: verificare sempre il metadata XML.
 

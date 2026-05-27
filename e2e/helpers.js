@@ -21,7 +21,7 @@ export function trackBadNavigation(page) {
 /** @param {import('@playwright/test').Page} page */
 export async function waitForAppReady(page) {
   await page.goto('/');
-  await page.getByRole('heading', { name: 'SPID Registry Navigator' }).waitFor();
+  await page.getByRole('heading', { name: 'SPID SAML2 Federation Search Engine' }).waitFor();
   await page.locator('#entity-list .entity-row').first().waitFor({ timeout: 60_000 });
 }
 

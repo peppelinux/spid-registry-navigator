@@ -1,7 +1,7 @@
 export const API_BASE = 'https://registry.spid.gov.it';
 export const SPID_NS = 'https://spid.gov.it/saml-extensions';
 export const MD_NS = 'urn:oasis:names:tc:SAML:2.0:metadata';
-export const CACHE_KEY = 'spid-registry-navigator-metadata-v1';
+export const CACHE_KEY = 'spid-saml2-federation-search-engine-metadata-v1';
 /** Totali entity ID nel registro (persistiti, senza scadenza). */
 export const REGISTRY_TOTALS_KEY = 'spid-nav-registry-totals:v1';
 export const CACHE_TTL_MS = 24 * 60 * 60 * 1000;

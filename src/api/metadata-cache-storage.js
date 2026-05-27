@@ -1,4 +1,4 @@
-const DB_NAME = 'spid-registry-navigator';
+const DB_NAME = 'spid-saml2-federation-search-engine';
 const DB_VERSION = 1;
 const STORE = 'metadata';
 const CACHE_RECORD_KEY = 'store';

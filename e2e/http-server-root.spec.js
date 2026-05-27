@@ -6,7 +6,7 @@ test('/dist/ serves built SPA without redirect to /dist/dist/', async ({ page })
   const response = await page.goto('/dist/');
 
   expect(response?.status()).toBe(200);
-  await page.getByRole('heading', { name: 'SPID Registry Navigator' }).waitFor({
+  await page.getByRole('heading', { name: 'SPID SAML2 Federation Search Engine' }).waitFor({
     timeout: 30_000,
   });
 

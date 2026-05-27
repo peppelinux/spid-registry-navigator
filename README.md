@@ -1,4 +1,4 @@
-# SPID Registry Navigator
+# SPID SAML2 Federation Search Engine
 
 **Single Page Application** statica in JavaScript: nessun backend in esecuzione. Il browser chiama direttamente le API del [Registro SPID](https://registry.spid.gov.it) (`registry.spid.gov.it`, CORS abilitato).
 
@@ -21,8 +21,8 @@ Documentazione etichette (badge) e filtri:
 
 | Ambiente | URL | Aggiornamento |
 |----------|-----|----------------|
-| **Production** | https://peppelinux.github.io/spid-registry-navigator/ | ogni push su `main` / `master` ([workflow](.github/workflows/deploy-pages.yml)) |
-| **Nightbuild** | https://peppelinux.github.io/spid-registry-navigator/nightly/ | ogni **24 ore** (04:00 UTC) + manuale ([workflow](.github/workflows/deploy-nightly.yml)) |
+| **Production** | https://peppelinux.github.io/spid-saml2-federation-search-engine/ | ogni push su `main` / `master` ([workflow](.github/workflows/deploy-pages.yml)) |
+| **Nightbuild** | https://peppelinux.github.io/spid-saml2-federation-search-engine/nightly/ | ogni **24 ore** (04:00 UTC) + manuale ([workflow](.github/workflows/deploy-nightly.yml)) |
 
 - **Production** — cache e bundle come nel commit su `main` (`public/data/`).
 - **Nightbuild** — prima del deploy esegue `build:cache:refresh` e `build:cache:aggregators` sul registry live, poi pubblica in `/nightly/`.
@@ -56,7 +56,7 @@ La workflow [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-page
 Per testare la build come in CI:
 
 ```bash
-VITE_BASE_PATH=/spid-registry-navigator/ npm run build
+VITE_BASE_PATH=/spid-saml2-federation-search-engine/ npm run build
 ./serve-static.sh
 ```
 

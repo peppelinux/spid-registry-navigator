@@ -416,7 +416,7 @@ function rebuildIdpSupportedAgeLimit(entries) {
 }
 
 async function main() {
-  console.log(`Build cache metadata SPID Registry Navigator · pool=${FETCH_CONCURRENCY}\n`);
+  console.log(`Build cache metadata SPID SAML2 Federation Search Engine · pool=${FETCH_CONCURRENCY}\n`);
 
   const entries = {};
   const scans = {};
@@ -449,7 +449,7 @@ async function main() {
     bundleVersion: 1,
     exportedAt: new Date().toISOString(),
     generatedAt: new Date().toISOString(),
-    source: 'spid-registry-navigator',
+    source: 'spid-saml2-federation-search-engine',
     description:
       'Cache predefinita: metadata XML completo; flag filtri (minori, firma, professionale, eIDAS) solo da XML',
     version: 1,

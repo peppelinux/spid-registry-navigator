@@ -61,7 +61,7 @@ export function rowsToJsonBundle(rows, meta) {
   return JSON.stringify(
     {
       exportedAt: new Date().toISOString(),
-      source: 'spid-registry-navigator',
+      source: 'spid-saml2-federation-search-engine',
       ...meta,
       count: rows.length,
       rows,

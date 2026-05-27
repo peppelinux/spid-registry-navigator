@@ -930,7 +930,7 @@ export async function mountApp(root, { cacheBootstrap } = {}) {
     <div class="app-shell">
       <header class="app-header">
         <div>
-          <h1>SPID Registry Navigator</h1>
+          <h1>SPID SAML2 Federation Search Engine</h1>
           <p class="subtitle">Navigazione registry · ${apidocLinkHtml()}</p>
         </div>
         <button type="button" class="btn" id="refresh-btn">Aggiorna</button>

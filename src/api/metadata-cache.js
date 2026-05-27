@@ -355,7 +355,7 @@ export function exportCacheBundle() {
   return {
     bundleVersion: 1,
     exportedAt: new Date().toISOString(),
-    source: 'spid-registry-navigator',
+    source: 'spid-saml2-federation-search-engine',
     version: store.version,
     entries: store.entries,
     idpSupportedAgeLimit: store.idpSupportedAgeLimit,

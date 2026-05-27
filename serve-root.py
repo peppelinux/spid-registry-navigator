@@ -35,7 +35,7 @@ def main() -> None:
                 self.send_header("Pragma", "no-cache")
             super().end_headers()
 
-    print(f"SPID Registry Navigator — http://127.0.0.1:{PORT}/")
+    print(f"SPID SAML2 Federation Search Engine — http://127.0.0.1:{PORT}/")
     print("(Ctrl+C per uscire)")
     ThreadingHTTPServer(("127.0.0.1", PORT), Handler).serve_forever()
 

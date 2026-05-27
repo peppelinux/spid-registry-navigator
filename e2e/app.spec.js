@@ -26,7 +26,7 @@ test.describe('serve-root (recommended)', () => {
     await page.goto('/');
     await Promise.all([cacheReq, totalsReq, aggregatorsReq]);
 
-    await page.getByRole('heading', { name: 'SPID Registry Navigator' }).waitFor({
+    await page.getByRole('heading', { name: 'SPID SAML2 Federation Search Engine' }).waitFor({
       timeout: 60_000,
     });
 
